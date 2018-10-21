@@ -30,7 +30,7 @@ public class TestWeather {
     private static final String UTC = "UTC";
     private static final double LAT_VALUE = 55.75396;
     private static final double LON_VALUE = 37.620393;
-    private static final double DELTA_EQUALS = 0.000001;
+    private static final double LOCATION_DELTA_EQUALS = 0.000001;
     private static final String URL_EXTRA_TRUE = "https://api.weather.yandex.ru/v1/forecast?lat=55.75396&lon=37.620393&extra=true";
     private static final String HEADER_NAME_KEY = "x-yandex-api-key";
     private static final String HEADER_KEY_VALUE = "71e5fc77-9252-412f-9b93-e551d4be2592";
@@ -117,7 +117,7 @@ public class TestWeather {
     private void assertWind(String infoObject, Double speed) {
         Assert.assertNotNull(String.format("Missing %s", infoObject), speed);
         Assert.assertTrue(String.format("Wrong %s", infoObject),
-                (speed < MAX_WIND_SPEED) && (speed >= 0.0));
+                (speed - MAX_WIND_SPEED < 0.0001) && (speed - 0.0 >= -0.0001));
     }
 
     private void assertWindDir(String infoObject, String dir) {
@@ -157,13 +157,13 @@ public class TestWeather {
     @Test
     public void LocationLat() {
         Assert.assertNotNull("Missing Lat", testWeather.getInfo().getLat());
-        Assert.assertEquals(LAT_VALUE, testWeather.getInfo().getLat(), DELTA_EQUALS);
+        Assert.assertEquals(LAT_VALUE, testWeather.getInfo().getLat(), LOCATION_DELTA_EQUALS);
     }
 
     @Test
     public void LocationLon() {
         Assert.assertNotNull("Missing Lon", testWeather.getInfo().getLon());
-        Assert.assertEquals(LON_VALUE, testWeather.getInfo().getLon(), DELTA_EQUALS);
+        Assert.assertEquals(LON_VALUE, testWeather.getInfo().getLon(), LOCATION_DELTA_EQUALS);
     }
 
     @Test
@@ -296,11 +296,11 @@ public class TestWeather {
     public void WindForthForcastHours() {
         for (int i = 0; i < 4; i++) {
             for (Hour hour : testWeather.getForecasts().get(i).getHours()) {
-                assertWind(String.format("WindGuest in hour %s forecast#%s", hour.getHour(), i),
+                assertWind(String.format("WindGuest in hour %s forecast#%s: %s", hour.getHour(), i, hour.getWindGust()),
                         hour.getWindGust());
-                assertWind(String.format("PrecStrenght in hour %s forecast#%s", hour.getHour(), i),
+                assertWind(String.format("PrecStrenght in hour %s forecast#%s: %s", hour.getHour(), i, hour.getWindGust()),
                         hour.getWindSpeed());
-                assertWindDir(String.format("PrecMm in hour %s forecast#%s", hour.getHour(), i),
+                assertWindDir(String.format("PrecMm in hour %s forecast#%s: %s", hour.getHour(), i, hour.getWindGust()),
                         hour.getWindDir().toUpperCase());
             }
         }

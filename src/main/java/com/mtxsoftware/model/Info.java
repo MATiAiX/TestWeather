@@ -47,7 +47,7 @@ public class Info {
     @JsonProperty("lon")
     private Double lon;//Долгота (в градусах).
     @JsonProperty("tzinfo")
-    private Tzinfo tzinfo;//нформация о часовом поясе.
+    private Tzinfo tzinfo;//информация о часовом поясе.
     @JsonProperty("def_pressure_mm")
     private Integer defPressureMm;//Норма давления для данной координаты (в мм рт. ст.).
     @JsonProperty("def_pressure_pa")
