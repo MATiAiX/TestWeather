@@ -31,20 +31,20 @@ public class TestWeather {
     private static final double LAT_VALUE = 55.75396;
     private static final double LON_VALUE = 37.620393;
     private static final double LOCATION_DELTA_EQUALS = 0.000001;
-    private static final String URL_EXTRA_TRUE = "https://api.weather.yandex.ru/v1/forecast?lat=55.75396&lon=37.620393&extra=true";
+    private static final String URL_EXTRA_TRUE = "https://api.weather.yandex.ru/v1/forecast?lat=" + LAT_VALUE + "&lon=" + LON_VALUE + "&extra=true";
     private static final String HEADER_NAME_KEY = "x-yandex-api-key";
     private static final String HEADER_KEY_VALUE = "71e5fc77-9252-412f-9b93-e551d4be2592";
     private static final String HEADER_KEY_VALUE_NEGATIVE = "71e5fc77----------------e551d4be2592";
     private static final String YANDEX_FORMAT_DATETIME = "yyyy-MM-dd\'T\'hh:mm:ss.SSS\'Z\'";
     private static final String YANDEX_FORMAT_DATETIME_FORECAST = "yyyy-MM-dd";
     private static final String EQUALS_FORMAT_DATETIME = "yyyy-MM-dd";
-    private static final int EQUALS_MIN_TEMP = -50;
-    private static final int EQUALS_MAX_TEMP = 50;
-    private static final double MAX_WIND_SPEED = 30.0;
+    private static final int EQUALS_MIN_TEMP = -48;
+    private static final int EQUALS_MAX_TEMP = 45;
+    private static final double MAX_WIND_SPEED = 35.0;
     private static final int PREC_TYPE_MIN = 0;
     private static final int PREC_TYPE_MAX = 3;
-    private static final int PREC_MM_MAX = 100;
-    private static final int PREC_MM_MIN = 0;
+    private static final double PREC_MM_MAX = 100;
+    private static final double PREC_MM_MIN = 0;
     private static final double PREC_STRENGHT_MAX = 1.0;
     private static final double PREC_STRENGHT_MIN = 0.0;
 
@@ -167,14 +167,14 @@ public class TestWeather {
     }
 
     @Test
-    public void LocationName() {
-        Assert.assertNotNull("Missing name location", testWeather.getInfo().getTzinfo().getName());
+    public void TimeZoneName() {
+        Assert.assertNotNull("Missing name time zone", testWeather.getInfo().getTzinfo().getName());
         Assert.assertEquals(EUROPE_MOSCOW, testWeather.getInfo().getTzinfo().getName());
     }
 
     @Test
-    public void LocationAbbr() {
-        Assert.assertNotNull("Missing abbr location", testWeather.getInfo().getTzinfo().getAbbr());
+    public void TimeZoneAbbr() {
+        Assert.assertNotNull("Missing abbr time zone", testWeather.getInfo().getTzinfo().getAbbr());
         Assert.assertEquals(MSK, testWeather.getInfo().getTzinfo().getAbbr());
     }
     //endregion Location
@@ -379,7 +379,7 @@ public class TestWeather {
         Assert.assertNotNull("Missing Condition in Fact",
                 testWeather.getFact().getCondition());
         Assert.assertTrue(String.format("Wrong Condition in Fact: %s", testWeather.getFact().getCondition()),
-                Condition.findValue(testWeather.getFact().getCondition()));
+                Condition.findValue(testWeather.getFact().getCondition().toLowerCase()));
 
     }
 
@@ -390,7 +390,7 @@ public class TestWeather {
                 Assert.assertNotNull(String.format("Missing Condition %s %s", part.getClass().getSimpleName(), fc.getDate()),
                         part.getCondition());
                 Assert.assertTrue(String.format("Wrong Condition %s %s: %s", part.getClass().getSimpleName(), fc.getDate(), part.getCondition()),
-                        Condition.findValue(part.getCondition()));
+                        Condition.findValue(part.getCondition().toLowerCase()));
             }
     }
 
@@ -401,7 +401,7 @@ public class TestWeather {
                 Assert.assertNotNull(String.format("Missing Condition hour %s in forecast#%s", hour.getHour(), i),
                         hour.getCondition());
                 Assert.assertTrue(String.format("Wrong Condition hour %s in forecast#%s: %s", hour.getHour(), i, hour.getCondition()),
-                        Condition.findValue(hour.getCondition()));
+                        Condition.findValue(hour.getCondition().toLowerCase()));
             }
         }
     }

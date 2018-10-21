@@ -66,7 +66,7 @@ public class PartShort {
     @JsonProperty("soil_moisture")
     protected Double soilMoisture;
     @JsonProperty("prec_mm")
-    protected Integer precMm;//Прогнозируемое количество осадков (в мм).
+    protected Double precMm;//Прогнозируемое количество осадков (в мм).
     @JsonProperty("prec_prob")
     protected Integer precProb;
     @JsonProperty("prec_type")
@@ -229,12 +229,12 @@ public class PartShort {
     }
 
     @JsonProperty("prec_mm")
-    public Integer getPrecMm() {
+    public Double getPrecMm() {
         return precMm;
     }
 
     @JsonProperty("prec_mm")
-    public void setPrecMm(Integer precMm) {
+    public void setPrecMm(Double precMm) {
         this.precMm = precMm;
     }
 
